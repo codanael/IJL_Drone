@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/main_title_rl"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/black_overlay" >
+
+        <ImageButton
+            android:id="@+id/ReturnBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:onClick="onReturn"
+            android:scaleType="centerInside"
+            android:src="@drawable/selector_back_button" />
+
+        <TextView
+            android:id="@+id/ConnectStatusTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="SimulatorDemo"
+            android:textColor="@android:color/white"
+            android:textSize="19sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginTop="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Simulator is off."
+        android:id="@+id/textview_simulator"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Virtual Stick"
+        style="@style/common_button"
+        android:id="@+id/btn_enable_virtual_stick"
+        android:layout_marginLeft="5dp"
+        android:layout_alignTop="@+id/btn_start_simulator"
+        android:layout_alignStart="@+id/directionJoystickLeft"
+        android:layout_marginTop="0dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disable Virtual Stick"
+        style="@style/common_button"
+        android:id="@+id/btn_disable_virtual_stick"
+        android:layout_below="@+id/btn_enable_virtual_stick"
+        android:layout_alignStart="@+id/btn_enable_virtual_stick"
+        android:layout_marginLeft="0dp"
+        android:layout_alignEnd="@+id/btn_enable_virtual_stick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Off"
+        style="@style/common_button"
+        android:id="@+id/btn_take_off"
+        android:layout_alignTop="@+id/btn_disable_virtual_stick"
+        android:layout_alignStart="@+id/btn_start_simulator"
+        android:layout_marginTop="0dp"
+        android:layout_alignEnd="@+id/btn_start_simulator" />
+
+    <ToggleButton
+        android:id="@+id/btn_start_simulator"
+        style="@style/common_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_simulator"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_toEndOf="@+id/btn_enable_virtual_stick"
+        android:text="Start Simulator"
+        android:textOff="Start Simulator"
+        android:textOn="Stop Simulator" />
+
+    <Button
+        android:id="@+id/btn_land"
+        style="@style/common_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btn_take_off"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-4dp"
+        android:layout_toEndOf="@+id/btn_take_off"
+        android:text="Land" />
+
+    <Button
+        android:id="@+id/btn_forward"
+        style="@style/common_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_land"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/btn_start_simulator"
+        android:text="Forward" />
+
+    <com.dji.simulatorDemo.OnScreenJoystick
+        android:id="@+id/directionJoystickLeft"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@mipmap/joystick_bg"/>
+
+    <com.dji.simulatorDemo.OnScreenJoystick
+        android:id="@+id/directionJoystickRight"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@mipmap/joystick_bg"/>
+
+    <EditText
+        android:id="@+id/edittext_bridge_ip"
+        android:layout_width="150dp"
+        android:layout_height="55dp"
+        android:layout_below="@+id/btn_forward"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:digits="0123456789.\n"
+        android:hint="WSBridge IP"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:nextFocusLeft="@id/edittext_bridge_ip"
+        android:nextFocusUp="@id/edittext_bridge_ip"
+        android:textAllCaps="false"
+        android:textSize="15dp" />
+
+
+</RelativeLayout>
