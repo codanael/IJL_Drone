@@ -11,10 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dcd345fc-d99e-4870-afe2-eff481094dc5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/gradle_models.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/dji/simulatorDemo/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/dji/simulatorDemo/MainActivity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -34,7 +31,7 @@
     <session id="698555472">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="7" />
+          <entry key="project.closed" value="8" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.28" value="2" />
           <entry key="project.open.time.30" value="1" />
@@ -63,7 +60,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gradle" value="2" />
-          <entry key="java" value="473" />
+          <entry key="java" value="491" />
           <entry key="txt" value="13" />
           <entry key="xml" value="6" />
         </counts>
@@ -71,7 +68,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Groovy" value="2" />
-          <entry key="JAVA" value="473" />
+          <entry key="JAVA" value="491" />
           <entry key="PLAIN_TEXT" value="13" />
           <entry key="XML" value="6" />
         </counts>
@@ -92,18 +89,51 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dji/simulatorDemo/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-106">
-              <caret line="336" column="10" selection-start-line="336" selection-start-column="10" selection-end-line="336" selection-end-column="10" />
+            <state relative-caret-position="141">
+              <caret line="377" column="80" selection-start-line="377" selection-start-column="65" selection-end-line="377" selection-end-column="80" />
               <folding>
-                <element signature="e#5305#5306#0" expanded="true" />
-                <element signature="e#5370#5371#0" expanded="true" />
-                <element signature="e#5934#5935#0" expanded="true" />
-                <element signature="e#6000#6001#0" expanded="true" />
-                <element signature="e#9145#9299#0" expanded="true" />
-                <element signature="e#9298#9299#0" expanded="true" />
-                <element signature="e#15206#16384#0" expanded="true" />
-                <element signature="e#16383#16384#0" expanded="true" />
+                <element signature="e#4787#4788#0" expanded="true" />
+                <element signature="e#4852#4853#0" expanded="true" />
+                <element signature="e#5730#5731#0" expanded="true" />
+                <element signature="e#5796#5797#0" expanded="true" />
+                <element signature="e#7708#10488#0" expanded="true" />
+                <element signature="e#9694#10046#0" expanded="true" />
+                <element signature="e#10045#10046#0" expanded="true" />
+                <element signature="e#10487#10488#0" expanded="true" />
+                <element signature="e#10552#10706#0" expanded="true" />
+                <element signature="e#10705#10706#0" expanded="true" />
+                <element signature="e#10777#10932#0" expanded="true" />
+                <element signature="e#10931#10932#0" expanded="true" />
+                <element signature="e#14505#15683#0" expanded="true" />
+                <element signature="e#14695#15649#0" expanded="true" />
+                <element signature="e#15648#15649#0" expanded="true" />
+                <element signature="e#15682#15683#0" expanded="true" />
+                <element signature="e#16892#19063#0" expanded="true" />
+                <element signature="e#17412#18041#0" expanded="true" />
+                <element signature="e#18040#18041#0" expanded="true" />
+                <element signature="e#18303#18963#0" expanded="true" />
+                <element signature="e#18962#18963#0" expanded="true" />
+                <element signature="e#19062#19063#0" expanded="true" />
+                <element signature="e#19121#19943#0" expanded="true" />
+                <element signature="e#19942#19943#0" expanded="true" />
+                <element signature="e#23573#24027#0" expanded="true" />
+                <element signature="e#24026#24027#0" expanded="true" />
+                <element signature="e#24244#24699#0" expanded="true" />
+                <element signature="e#24698#24699#0" expanded="true" />
+                <element signature="e#24909#25423#0" expanded="true" />
+                <element signature="e#25422#25423#0" expanded="true" />
+                <element signature="e#25652#26163#0" expanded="true" />
+                <element signature="e#26162#26163#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-26/android.jar!/android/os/AsyncTask.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="245">
+              <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -144,6 +174,7 @@
       <find>toast</find>
       <find>joy</find>
       <find>login</find>
+      <find>useraccountstat</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -348,13 +379,14 @@
       <window_info id="Image Layers" order="5" />
       <window_info id="Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
+      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3293348" />
-      <window_info anchor="bottom" id="Logcat" order="1" weight="0.174482" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="1" visible="true" weight="0.0" />
       <window_info anchor="bottom" id="TODO" order="2" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.35114503" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.35114503" />
       <window_info anchor="bottom" id="Terminal" order="4" />
       <window_info anchor="bottom" id="Event Log" order="5" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="6" weight="0.3293348" />
+      <window_info anchor="bottom" id="Version Control" order="6" weight="0.32497275" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.16575791" />
       <window_info anchor="bottom" id="Android Profiler" order="8" weight="0.3293348" />
       <window_info anchor="bottom" id="Find" order="9" weight="0.3293348" />
@@ -502,17 +534,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/dji/simulatorDemo/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-106">
-          <caret line="336" column="10" selection-start-line="336" selection-start-column="10" selection-end-line="336" selection-end-column="10" />
+        <state relative-caret-position="141">
+          <caret line="377" column="80" selection-start-line="377" selection-start-column="65" selection-end-line="377" selection-end-column="80" />
           <folding>
-            <element signature="e#5305#5306#0" expanded="true" />
-            <element signature="e#5370#5371#0" expanded="true" />
-            <element signature="e#5934#5935#0" expanded="true" />
-            <element signature="e#6000#6001#0" expanded="true" />
-            <element signature="e#9145#9299#0" expanded="true" />
-            <element signature="e#9298#9299#0" expanded="true" />
-            <element signature="e#15206#16384#0" expanded="true" />
-            <element signature="e#16383#16384#0" expanded="true" />
+            <element signature="e#4787#4788#0" expanded="true" />
+            <element signature="e#4852#4853#0" expanded="true" />
+            <element signature="e#5730#5731#0" expanded="true" />
+            <element signature="e#5796#5797#0" expanded="true" />
+            <element signature="e#7708#10488#0" expanded="true" />
+            <element signature="e#9694#10046#0" expanded="true" />
+            <element signature="e#10045#10046#0" expanded="true" />
+            <element signature="e#10487#10488#0" expanded="true" />
+            <element signature="e#10552#10706#0" expanded="true" />
+            <element signature="e#10705#10706#0" expanded="true" />
+            <element signature="e#10777#10932#0" expanded="true" />
+            <element signature="e#10931#10932#0" expanded="true" />
+            <element signature="e#14505#15683#0" expanded="true" />
+            <element signature="e#14695#15649#0" expanded="true" />
+            <element signature="e#15648#15649#0" expanded="true" />
+            <element signature="e#15682#15683#0" expanded="true" />
+            <element signature="e#16892#19063#0" expanded="true" />
+            <element signature="e#17412#18041#0" expanded="true" />
+            <element signature="e#18040#18041#0" expanded="true" />
+            <element signature="e#18303#18963#0" expanded="true" />
+            <element signature="e#18962#18963#0" expanded="true" />
+            <element signature="e#19062#19063#0" expanded="true" />
+            <element signature="e#19121#19943#0" expanded="true" />
+            <element signature="e#19942#19943#0" expanded="true" />
+            <element signature="e#23573#24027#0" expanded="true" />
+            <element signature="e#24026#24027#0" expanded="true" />
+            <element signature="e#24244#24699#0" expanded="true" />
+            <element signature="e#24698#24699#0" expanded="true" />
+            <element signature="e#24909#25423#0" expanded="true" />
+            <element signature="e#25422#25423#0" expanded="true" />
+            <element signature="e#25652#26163#0" expanded="true" />
+            <element signature="e#26162#26163#0" expanded="true" />
           </folding>
         </state>
       </provider>

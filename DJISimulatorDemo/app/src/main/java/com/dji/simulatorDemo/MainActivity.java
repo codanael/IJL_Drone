@@ -138,9 +138,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... params)
         {
+            mPitch=1;
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             }
             catch (InterruptedException exception)
             {
@@ -155,10 +156,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
             {
                 exception.printStackTrace();
             }
-            mRoll = 3;
+            mRoll = 1;
             try
             {
-                Thread.sleep(1000);
+                Thread.sleep(3000);
             }
             catch (InterruptedException exception)
             {
@@ -369,7 +370,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onDestroy();
     }
 
-    private void loginAccount() {
+    /*private void loginAccount() {
 
         UserAccountManager.getInstance().logIntoDJIUserAccount(this,
                 new CommonCallbacks.CompletionCallbackWith<UserAccountState>() {
@@ -385,7 +386,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 + error.getDescription());
                     }
                 });
-    }
+    }*/
 
     private void initFlightController() {
 
@@ -678,25 +679,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_forward:
                 Log.d(TAG,"FORWARD");
                 if (mFlightController != null) {
-                    mPitch = 3;
+                    mPitch = 0;
                     mYaw = 0;
                     mRoll = 0;
                     mThrottle = 0;
 
                     if (null == mSendVirtualStickDataTimer) {
                         Log.d(TAG,"IF FORWARD");
-                        TimingLogger timings = new TimingLogger(TAG, "methodA");
                         mSendVirtualStickDataTask = new SendVirtualStickDataTask();
                         mSendVirtualStickDataTimer = new Timer();
-                        timings.addSplit("Avant commande vitesse");
                         mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
-                        timings.addSplit("Après commande vitesse");
-                        timings.dumpToLog();
-
-
-                        /*mSendVirtualStickDataTask = new SendVirtualStickDataTask();
-                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
-                        timings.addSplit("Après commande stop");*/
 
                     }
                     runMultipleAsyncTask();
