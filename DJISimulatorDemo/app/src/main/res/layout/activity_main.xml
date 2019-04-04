@@ -147,6 +147,7 @@
         android:maxLines="1"
         android:nextFocusLeft="@id/edittext_bridge_ip"
         android:nextFocusUp="@id/edittext_bridge_ip"
+        android:text="172.20.10.10"
         android:textAllCaps="false"
         android:textSize="15dp" />
 

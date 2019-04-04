@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TimingLogger;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -28,6 +29,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.lmax.disruptor.WaitStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +116,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction(DJISimulatorApplication.FLAG_CONNECTION_CHANGE);
         registerReceiver(mReceiver, filter);
+
 
     }
 
@@ -246,6 +250,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 //The product is connected
                 mConnectStatusTextView.setText(DJISimulatorApplication.getProductInstance().getModel() + " Connected");
                 ret = true;
+                initFlightController();
             } else {
                 if (product instanceof Aircraft) {
                     Aircraft aircraft = (Aircraft) product;
@@ -468,7 +473,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         });
 
 
-        mScreenJoystickRight.setJoystickListener(new OnScreenJoystickListener(){
+        /*mScreenJoystickRight.setJoystickListener(new OnScreenJoystickListener(){
 
             @Override
             public void onTouch(OnScreenJoystick joystick, float pX, float pY) {
@@ -521,7 +526,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
 
             }
-        });
+        });*/
 }
     private void handleBridgeIPTextChange() {
         // the user is done typing.
@@ -612,17 +617,40 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_forward:
+                Log.d(TAG,"FORWARD");
                 if (mFlightController != null) {
                     mPitch = 3;
                     mYaw = 0;
                     mRoll = 0;
                     mThrottle = 0;
+
                     if (null == mSendVirtualStickDataTimer) {
+                        Log.d(TAG,"IF FORWARD");
+                        TimingLogger timings = new TimingLogger(TAG, "methodA");
                         mSendVirtualStickDataTask = new SendVirtualStickDataTask();
                         mSendVirtualStickDataTimer = new Timer();
+                        timings.addSplit("Avant commande vitesse");
                         mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
+                        timings.addSplit("Après commande vitesse");
+                        timings.dumpToLog();
+
+
+                        /*mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
+                        timings.addSplit("Après commande stop");*/
+
                     }
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPitch = 0;
+                            Log.d(TAG,"Fin FORWARD");
+                        }
+                    }, 1000);
+
                 }
+                break;
 
             default:
                 break;
