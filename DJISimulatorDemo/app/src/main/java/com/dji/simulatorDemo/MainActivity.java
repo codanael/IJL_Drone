@@ -120,6 +120,65 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+    private void runMultipleAsyncTask() // Run Multiple Async Task
+    {
+        FirstAsyncTask asyncTask = new FirstAsyncTask(); // First
+
+        asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+    }
+    //Start First Async Task:
+    private class FirstAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            Log.i("AsyncTask" ,"FirstOnPreExecute()");
+        }
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mPitch = 0;
+            try
+            {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mRoll = 3;
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mRoll = 0;
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            Log.d("AsyncTask" ,"FirstonPostExecute()");
+        }
+    }
+
+
+
+
+
 
     /**
      * Checks if there is any missing permissions, and
@@ -275,7 +334,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onResume();
         updateTitleBar();
         initFlightController();
-        loginAccount();
+        //loginAccount();
 
     }
 
@@ -630,7 +689,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         mSendVirtualStickDataTask = new SendVirtualStickDataTask();
                         mSendVirtualStickDataTimer = new Timer();
                         timings.addSplit("Avant commande vitesse");
-                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
+                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
                         timings.addSplit("Après commande vitesse");
                         timings.dumpToLog();
 
@@ -640,14 +699,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         timings.addSplit("Après commande stop");*/
 
                     }
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPitch = 0;
-                            Log.d(TAG,"Fin FORWARD");
-                        }
-                    }, 1000);
+                    runMultipleAsyncTask();
 
                 }
                 break;
