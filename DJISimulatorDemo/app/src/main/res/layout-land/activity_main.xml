@@ -65,15 +65,15 @@
         android:layout_alignEnd="@+id/btn_enable_virtual_stick" />
 
     <Button
+        android:id="@+id/btn_take_off"
+        style="@style/common_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take Off"
-        style="@style/common_button"
-        android:id="@+id/btn_take_off"
-        android:layout_alignTop="@+id/btn_disable_virtual_stick"
         android:layout_alignStart="@+id/btn_start_simulator"
+        android:layout_alignTop="@+id/btn_disable_virtual_stick"
+        android:layout_alignEnd="@+id/btn_start_simulator"
         android:layout_marginTop="0dp"
-        android:layout_alignEnd="@+id/btn_start_simulator" />
+        android:text="Décollage" />
 
     <ToggleButton
         android:id="@+id/btn_start_simulator"
@@ -99,7 +99,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="-4dp"
         android:layout_toEndOf="@+id/btn_take_off"
-        android:text="Land" />
+        android:text="Atterissage" />
 
     <Button
         android:id="@+id/btn_forward"
@@ -110,7 +110,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginBottom="10dp"
         android:layout_toEndOf="@+id/btn_start_simulator"
-        android:text="Forward" />
+        android:text="Trajectoire 1" />
 
     <com.dji.simulatorDemo.OnScreenJoystick
         android:id="@+id/directionJoystickLeft"
@@ -149,6 +149,16 @@
         android:nextFocusUp="@id/edittext_bridge_ip"
         android:textAllCaps="false"
         android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/btn_reglage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_forward"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="13dp"
+        android:text="Réglages" />
 
 
 </RelativeLayout>

@@ -90,6 +90,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mBtnLand;
     private Button mBtnForward;
     private EditText mBridgeModeEditText;
+    private Button mBtnReglages;
 
     private TextView mTextView;
 
@@ -103,6 +104,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float mRoll;
     private float mYaw;
     private float mThrottle;
+
+    private static final int REGLAGES_ACTIVITY_REQUEST_CODE = 42;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -438,12 +441,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mScreenJoystickRight = (OnScreenJoystick) findViewById(R.id.directionJoystickRight);
         mScreenJoystickLeft = (OnScreenJoystick) findViewById(R.id.directionJoystickLeft);
         mBridgeModeEditText = (EditText) findViewById(R.id.edittext_bridge_ip);
+        mBtnReglages = findViewById(R.id.btn_reglage);
 
         mBtnEnableVirtualStick.setOnClickListener(this);
         mBtnDisableVirtualStick.setOnClickListener(this);
         mBtnTakeOff.setOnClickListener(this);
         mBtnLand.setOnClickListener(this);
         mBtnForward.setOnClickListener(this);
+        mBtnReglages.setOnClickListener(this);
 
         mBtnSimulator.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -696,9 +701,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
                 break;
 
+            case R.id.btn_reglage:
+                Intent ReglagesActivity = new Intent(MainActivity.this, ReglagesActivity.class);
+                startActivityForResult(ReglagesActivity, REGLAGES_ACTIVITY_REQUEST_CODE);
+             break;
+
+
             default:
                 break;
         }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REGLAGES_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
+
+
+        }
+
     }
 
 class SendVirtualStickDataTask extends TimerTask {

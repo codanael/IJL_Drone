@@ -95,9 +95,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/btn_take_off"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="7dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="-4dp"
+        android:layout_marginTop="-1dp"
         android:layout_toEndOf="@+id/btn_take_off"
         android:text="Land" />
 
