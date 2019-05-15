@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ import dji.common.model.LocationCoordinate2D;
 import dji.common.useraccount.UserAccountState;
 import dji.common.util.CommonCallbacks;
 import dji.log.DJILog;
+import dji.midware.data.manager.P3.ServiceManager;
 import dji.sdk.base.BaseComponent;
 import dji.sdk.base.BaseProduct;
 import dji.sdk.flightcontroller.FlightController;
@@ -108,7 +110,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float mYaw;
     private float mThrottle;
 
-    private SharedPreferences mPreferences;
+
+
+    SharedPreferences mPreferences;
+    Context mContext;
 
 
     private static final int REGLAGES_ACTIVITY_REQUEST_CODE = 42;
@@ -118,7 +123,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         checkAndRequestPermissions();
         setContentView(R.layout.activity_main);
-        mPreferences = getPreferences(MODE_PRIVATE);
+        Context mContext = getApplicationContext();
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 
         initUI();
 
@@ -235,6 +241,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         protected Void doInBackground(Void... params)
         {
             mRoll=this.vitesseY;
+            Log.i("AsyncTask","Roll = "+this.vitesseY);
             try
             {
                 Thread.sleep((long)(this.distanceY/this.vitesseY*1000));
@@ -428,7 +435,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onResume() {
         Log.e(TAG, "onResume");
-        mPreferences = getPreferences(MODE_PRIVATE);
         super.onResume();
         updateTitleBar();
         initFlightController();
@@ -449,6 +455,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onReturn(View view) {
+        mPreferences = getPreferences(MODE_PRIVATE);
         Log.e(TAG, "onReturn");
         this.finish();
     }
@@ -780,6 +787,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_forward:
+                Log.d(TAG,"Vitesse1 = "+mPreferences.getFloat("PitchVitesse1",0));
                 Log.d(TAG,"Traj1");
                 if (mFlightController != null) {
                     mPitch = 0;
