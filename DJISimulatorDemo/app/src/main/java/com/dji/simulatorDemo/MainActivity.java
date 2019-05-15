@@ -714,8 +714,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REGLAGES_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-
-
+            float test = data.getFloatExtra("PitchDistance1",-1);
+            showToast("Pitch distance = "+test);
         }
 
     }

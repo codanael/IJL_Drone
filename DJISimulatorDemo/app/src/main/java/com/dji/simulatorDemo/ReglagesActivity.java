@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ReglagesActivity extends AppCompatActivity {
 
@@ -63,6 +64,7 @@ public class ReglagesActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        //Toast.makeText(ReglagesActivity.this,"Hello "+mEditTextPitchDistance1.getText(),Toast.LENGTH_LONG).show();
                         validate();
                     }
                 }
@@ -72,27 +74,40 @@ public class ReglagesActivity extends AppCompatActivity {
     }
     private void validate(){
         Intent intent = new Intent();
-        intent.putExtra("PitchDistance1",mEditTextPitchDistance1.getText());
-        intent.putExtra("PitchDistance2",mEditTextPitchDistance2.getText());
-        intent.putExtra("PitchDistance3",mEditTextPitchDistance3.getText());
+        intent.putExtra("PitchDistance1",getFloat(mEditTextPitchDistance1));
+        intent.putExtra("PitchDistance2",getFloat(mEditTextPitchDistance2));
+        intent.putExtra("PitchDistance3",getFloat(mEditTextPitchDistance3));
 
-        intent.putExtra("PitchVitesse1",mEditTextPitchVitesse1.getText());
-        intent.putExtra("PitchVitesse2",mEditTextPitchVitesse2.getText());
-        intent.putExtra("PitchVitesse3",mEditTextPitchVitesse3.getText());
+        intent.putExtra("PitchVitesse1",getFloat(mEditTextPitchVitesse1));
+        intent.putExtra("PitchVitesse2",getFloat(mEditTextPitchVitesse2));
+        intent.putExtra("PitchVitesse3",getFloat(mEditTextPitchVitesse3));
 
-        intent.putExtra("RollDistance1", mEditTextRollDistance1.getText());
-        intent.putExtra("RollDistance2", mEditTextRollDistance2.getText());
-        intent.putExtra("RollDistance3", mEditTextRollDistance3.getText());
+        intent.putExtra("RollDistance1", getFloat(mEditTextRollDistance1));
+        intent.putExtra("RollDistance2", getFloat(mEditTextRollDistance2));
+        intent.putExtra("RollDistance3", getFloat(mEditTextRollDistance3));
 
-        intent.putExtra("RollVitesse", mEditTextRollVitesse.getText());
+        intent.putExtra("RollVitesse", getFloat(mEditTextRollVitesse));
 
-        intent.putExtra("Stop1", mEditTextStop1.getText());
-        intent.putExtra("Stop2", mEditTextStop2.getText());
-        intent.putExtra("Stop3", mEditTextStop3.getText());
+        intent.putExtra("Stop1", getFloat(mEditTextStop1));
+        intent.putExtra("Stop2", getFloat(mEditTextStop2));
+        intent.putExtra("Stop3", getFloat(mEditTextStop3));
 
         setResult(RESULT_OK, intent);
         finish();
 
+    }
+
+    private float getFloat(EditText et){
+        float value = -1;
+        String text = et.getText().toString();
+        if(!text.isEmpty())
+        try
+        {
+            value = Float.parseFloat(text);
+        } catch (Exception e1){
+            e1.printStackTrace();
+        }
+        return value;
     }
 
 }
