@@ -90,6 +90,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mBtnTakeOff;
     private Button mBtnLand;
     private Button mBtnForward;
+    private Button mBtnForward2;
+    private Button mBtnForward3;
     private EditText mBridgeModeEditText;
     private Button mBtnReglages;
 
@@ -128,9 +130,79 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-    private void runMultipleAsyncTask() // Run Multiple Async Task
+    private void trajectoire(int numero){
+        switch (numero){
+            case 1:
+                Log.d(TAG,"Traj1");
+                if (mFlightController != null) {
+                    mPitch = 0;
+                    mYaw = 0;
+                    mRoll = 0;
+                    mThrottle = 0;
+
+                    if (null == mSendVirtualStickDataTimer) {
+                        Log.d(TAG,"IF Traj1");
+                        mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+                        mSendVirtualStickDataTimer = new Timer();
+                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
+
+                    }
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse1",0),mPreferences.getFloat("PitchDistance1",0),mPreferences.getFloat("RollVitesse",0),mPreferences.getFloat("RollDistance1",0),mPreferences.getFloat("Stop1",0),mPreferences.getFloat("Altitude",0));
+
+                }
+                break;
+
+            case 2:
+                Log.d(TAG,"Traj2");
+                if (mFlightController != null) {
+                    mPitch = 0;
+                    mYaw = 0;
+                    mRoll = 0;
+                    mThrottle = 0;
+
+                    if (null == mSendVirtualStickDataTimer) {
+                        Log.d(TAG,"IF Traj2");
+                        mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+                        mSendVirtualStickDataTimer = new Timer();
+                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
+
+                    }
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse2",0),mPreferences.getFloat("PitchDistance2",0),mPreferences.getFloat("RollVitesse",0),mPreferences.getFloat("RollDistance2",0),mPreferences.getFloat("Stop2",0),mPreferences.getFloat("Altitude",0));
+
+                }
+                break;
+            case 3:
+                Log.d(TAG,"Traj3");
+                if (mFlightController != null) {
+                    mPitch = 0;
+                    mYaw = 0;
+                    mRoll = 0;
+                    mThrottle = 0;
+
+                    if (null == mSendVirtualStickDataTimer) {
+                        Log.d(TAG,"IF Traj3");
+                        mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+                        mSendVirtualStickDataTimer = new Timer();
+                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
+
+                    }
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse3",0),mPreferences.getFloat("PitchDistance3",0),mPreferences.getFloat("RollVitesse",0),mPreferences.getFloat("RollDistance3",0),mPreferences.getFloat("Stop3",0),mPreferences.getFloat("Altitude",0));
+
+                }
+                break;
+             default:
+                 break;
+
+
+
+
+        }
+
+    }
+
+    private void runMultipleAsyncTask(float vitesseX, float distanceX, float vitesseY, float distanceY, float stop, float altitude) // Run Multiple Async Task
     {
-        FirstAsyncTask asyncTask = new FirstAsyncTask(); // First
+        FirstAsyncTask asyncTask = new FirstAsyncTask(vitesseX, distanceX, vitesseY, distanceY, stop, altitude); // First
 
         asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -138,6 +210,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //Start First Async Task:
     private class FirstAsyncTask extends AsyncTask<Void, Void, Void>
     {
+        float vitesseX;
+        float distanceX;
+        float vitesseY;
+        float distanceY;
+        float stop;
+        float altitude;
+
+        public FirstAsyncTask(float vitesseX, float distanceX, float vitesseY, float distanceY, float stop, float altitude) {
+            this.vitesseX = vitesseX;
+            this.distanceX = distanceX;
+            this.vitesseY = vitesseY;
+            this.distanceY = distanceY;
+            this.stop = stop;
+            this.altitude = altitude;
+        }
+
         @Override
         protected void onPreExecute()
         {
@@ -146,34 +234,34 @@ public class MainActivity extends Activity implements View.OnClickListener {
         @Override
         protected Void doInBackground(Void... params)
         {
-            mPitch=1;
+            mRoll=this.vitesseY;
             try
             {
-                Thread.sleep(3000);
-            }
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }
-            mPitch = 0;
-            try
-            {
-                Thread.sleep(2000);
-            }
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }
-            mRoll = 1;
-            try
-            {
-                Thread.sleep(3000);
+                Thread.sleep((long)(this.distanceY/this.vitesseY*1000));
             }
             catch (InterruptedException exception)
             {
                 exception.printStackTrace();
             }
             mRoll = 0;
+            try
+            {
+                Thread.sleep(2000+(long)this.stop*1000);
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mPitch = this.vitesseX;
+            try
+            {
+                Thread.sleep((long)(this.distanceX/this.vitesseX*1000));
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mPitch = 0;
 
             return null;
         }
@@ -442,6 +530,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mBtnLand = (Button) findViewById(R.id.btn_land);
         mBtnSimulator = (ToggleButton) findViewById(R.id.btn_start_simulator);
         mBtnForward = (Button) findViewById(R.id.btn_forward);
+        mBtnForward2 = (Button) findViewById(R.id.btn_forward2);
+        mBtnForward3 = (Button) findViewById(R.id.btn_forward3);
         mTextView = (TextView) findViewById(R.id.textview_simulator);
         mConnectStatusTextView = (TextView) findViewById(R.id.ConnectStatusTextView);
         mScreenJoystickRight = (OnScreenJoystick) findViewById(R.id.directionJoystickRight);
@@ -454,6 +544,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mBtnTakeOff.setOnClickListener(this);
         mBtnLand.setOnClickListener(this);
         mBtnForward.setOnClickListener(this);
+        mBtnForward2.setOnClickListener(this);
+        mBtnForward3.setOnClickListener(this);
         mBtnReglages.setOnClickListener(this);
 
         mBtnSimulator.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -688,7 +780,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_forward:
-                Log.d(TAG,"FORWARD");
+                Log.d(TAG,"Traj1");
                 if (mFlightController != null) {
                     mPitch = 0;
                     mYaw = 0;
@@ -696,15 +788,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     mThrottle = 0;
 
                     if (null == mSendVirtualStickDataTimer) {
-                        Log.d(TAG,"IF FORWARD");
+                        Log.d(TAG,"IF Traj1");
                         mSendVirtualStickDataTask = new SendVirtualStickDataTask();
                         mSendVirtualStickDataTimer = new Timer();
                         mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
 
                     }
-                    runMultipleAsyncTask();
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse1",0),mPreferences.getFloat("PitchDistance1",0),mPreferences.getFloat("RollVitesse",0),mPreferences.getFloat("RollDistance1",0),mPreferences.getFloat("Stop1",0),mPreferences.getFloat("Altitude",0));
 
                 }
+                break;
+
+            case R.id.btn_forward2:
+                trajectoire(2);
+                break;
+
+            case R.id.btn_forward3:
+                trajectoire(3);
                 break;
 
             case R.id.btn_reglage:
