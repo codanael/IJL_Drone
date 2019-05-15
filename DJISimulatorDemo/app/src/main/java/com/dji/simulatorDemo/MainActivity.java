@@ -441,7 +441,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mScreenJoystickRight = (OnScreenJoystick) findViewById(R.id.directionJoystickRight);
         mScreenJoystickLeft = (OnScreenJoystick) findViewById(R.id.directionJoystickLeft);
         mBridgeModeEditText = (EditText) findViewById(R.id.edittext_bridge_ip);
-        mBtnReglages = findViewById(R.id.btn_reglage);
+        mBtnReglages = (Button)findViewById(R.id.btn_reglage);
 
         mBtnEnableVirtualStick.setOnClickListener(this);
         mBtnDisableVirtualStick.setOnClickListener(this);

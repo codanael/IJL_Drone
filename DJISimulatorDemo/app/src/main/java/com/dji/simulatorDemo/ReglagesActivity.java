@@ -1,9 +1,11 @@
 package com.dji.simulatorDemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -57,24 +59,40 @@ public class ReglagesActivity extends AppCompatActivity {
         mEditTextStop2 = findViewById(R.id.edittext_stop_2);
         mEditTextStop3 = findViewById(R.id.edittext_stop_3);
 
-        mEditTextStop1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
+        mBtnOk.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        validate();
+                    }
+                }
+        );
 
 
     }
+    private void validate(){
+        Intent intent = new Intent();
+        intent.putExtra("PitchDistance1",mEditTextPitchDistance1.getText());
+        intent.putExtra("PitchDistance2",mEditTextPitchDistance2.getText());
+        intent.putExtra("PitchDistance3",mEditTextPitchDistance3.getText());
+
+        intent.putExtra("PitchVitesse1",mEditTextPitchVitesse1.getText());
+        intent.putExtra("PitchVitesse2",mEditTextPitchVitesse2.getText());
+        intent.putExtra("PitchVitesse3",mEditTextPitchVitesse3.getText());
+
+        intent.putExtra("RollDistance1", mEditTextRollDistance1.getText());
+        intent.putExtra("RollDistance2", mEditTextRollDistance2.getText());
+        intent.putExtra("RollDistance3", mEditTextRollDistance3.getText());
+
+        intent.putExtra("RollVitesse", mEditTextRollVitesse.getText());
+
+        intent.putExtra("Stop1", mEditTextStop1.getText());
+        intent.putExtra("Stop2", mEditTextStop2.getText());
+        intent.putExtra("Stop3", mEditTextStop3.getText());
+
+        setResult(RESULT_OK, intent);
+        finish();
+
+    }
+
 }
