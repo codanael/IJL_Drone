@@ -5,6 +5,78 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="247dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="240dp"
+        android:layout_marginEnd="193dp"
+        android:layout_marginBottom="334dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_enable_virtual_stick"
+            style="@style/common_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Activer commande drone" />
+
+        <Button
+            android:id="@+id/btn_take_off"
+            style="@style/common_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Décollage" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_forward"
+                style="@style/common_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trajectoire 1" />
+
+            <Button
+                android:id="@+id/btn_forward2"
+                style="@style/common_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trajectoire 2" />
+
+            <Button
+                android:id="@+id/btn_forward3"
+                style="@style/common_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Trajectoire 3" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_land"
+            style="@style/common_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Atterrissage" />
+
+        <Button
+            android:id="@+id/btn_disable_virtual_stick"
+            style="@style/common_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Désactiver commande drone" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/main_title_rl"
         android:layout_width="fill_parent"
@@ -42,75 +114,19 @@
         android:text="Simulator is off."
         android:id="@+id/textview_simulator"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable Virtual Stick"
-        style="@style/common_button"
-        android:id="@+id/btn_enable_virtual_stick"
-        android:layout_marginLeft="5dp"
-        android:layout_alignTop="@+id/btn_start_simulator"
-        android:layout_alignStart="@+id/directionJoystickLeft"
-        android:layout_marginTop="0dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Disable Virtual Stick"
-        style="@style/common_button"
-        android:id="@+id/btn_disable_virtual_stick"
-        android:layout_below="@+id/btn_enable_virtual_stick"
-        android:layout_alignStart="@+id/btn_enable_virtual_stick"
-        android:layout_marginLeft="0dp"
-        android:layout_alignEnd="@+id/btn_enable_virtual_stick" />
-
-    <Button
-        android:id="@+id/btn_take_off"
-        style="@style/common_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/btn_start_simulator"
-        android:layout_alignTop="@+id/btn_disable_virtual_stick"
-        android:layout_alignEnd="@+id/btn_start_simulator"
-        android:layout_marginTop="0dp"
-        android:text="Décollage" />
-
     <ToggleButton
         android:id="@+id/btn_start_simulator"
         style="@style/common_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textview_simulator"
-        android:layout_marginStart="19dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="7dp"
-        android:layout_toEndOf="@+id/btn_enable_virtual_stick"
+        android:layout_marginTop="428dp"
         android:text="Start Simulator"
         android:textOff="Start Simulator"
         android:textOn="Stop Simulator" />
-
-    <Button
-        android:id="@+id/btn_land"
-        style="@style/common_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_take_off"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="-4dp"
-        android:layout_toEndOf="@+id/btn_take_off"
-        android:text="Atterissage" />
-
-    <Button
-        android:id="@+id/btn_forward"
-        style="@style/common_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_land"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_toEndOf="@+id/btn_start_simulator"
-        android:text="Trajectoire 1" />
 
     <com.dji.simulatorDemo.OnScreenJoystick
         android:id="@+id/directionJoystickLeft"
@@ -136,9 +152,10 @@
         android:id="@+id/edittext_bridge_ip"
         android:layout_width="150dp"
         android:layout_height="55dp"
-        android:layout_below="@+id/btn_forward"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="67dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="21dp"
         android:digits="0123456789.\n"
         android:hint="WSBridge IP"
         android:imeOptions="actionDone"
@@ -148,17 +165,25 @@
         android:nextFocusLeft="@id/edittext_bridge_ip"
         android:nextFocusUp="@id/edittext_bridge_ip"
         android:textAllCaps="false"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:visibility="visible" />
 
-    <Button
-        android:id="@+id/btn_reglage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_forward"
+        android:layout_below="@+id/textview_simulator"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="13dp"
-        android:text="Réglages" />
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="17dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_reglage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Réglages" />
+    </LinearLayout>
 
 
 </RelativeLayout>

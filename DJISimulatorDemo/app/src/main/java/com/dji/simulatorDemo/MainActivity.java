@@ -105,6 +105,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float mYaw;
     private float mThrottle;
 
+    private float RollVitesse;
+
+    private float RollDistance1;
+    private float RollDistance2;
+    private float RollDistance3;
+
+    private float Stop1;
+    private float Stop2;
+    private float Stop3;
+
+    private float PitchDistance1;
+    private float PitchDistance2;
+    private float PitchDistance3;
+
+    private float PitchVitesse1;
+    private float PitchVitesse2;
+    private float PitchVitesse3;
+
+
     private static final int REGLAGES_ACTIVITY_REQUEST_CODE = 42;
 
     @Override
@@ -714,8 +733,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (REGLAGES_ACTIVITY_REQUEST_CODE == requestCode && RESULT_OK == resultCode) {
-            float test = data.getFloatExtra("PitchDistance1",-1);
-            showToast("Pitch distance = "+test);
+
+            PitchDistance1 = data.getFloatExtra("PitchDistance1",-1);
+            PitchDistance2 = data.getFloatExtra("PitchDistance2",-1);
+            PitchDistance3 = data.getFloatExtra("PitchDistance3",-1);
+
+            PitchVitesse1 = data.getFloatExtra("PitchVitesse1",-1);
+            PitchVitesse2 = data.getFloatExtra("PitchVitesse2",-1);
+            PitchVitesse3 = data.getFloatExtra("PitchVitesse3",-1);
+
+            RollDistance1 = data.getFloatExtra("RollDistance1",-1);
+            RollDistance2 = data.getFloatExtra("RollDistance2",-1);
+            RollDistance3 = data.getFloatExtra("RollDistance3",-1);
+
+            RollVitesse = data.getFloatExtra("RollVitesse",-1);
+
+            Stop1 = data.getFloatExtra("Stop1",-1);
+            Stop2 = data.getFloatExtra("Stop2",-1);
+            Stop3 = data.getFloatExtra("Stop3",-1);
+
         }
 
     }

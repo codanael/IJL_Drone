@@ -30,6 +30,8 @@ public class ReglagesActivity extends AppCompatActivity {
     private EditText mEditTextPitchVitesse2;
     private EditText mEditTextPitchVitesse3;
 
+    private EditText mEditTextAltitude;
+
     private Button mBtnOk;
 
 
@@ -59,6 +61,8 @@ public class ReglagesActivity extends AppCompatActivity {
         mEditTextStop1 = findViewById(R.id.edittext_stop_1);
         mEditTextStop2 = findViewById(R.id.edittext_stop_2);
         mEditTextStop3 = findViewById(R.id.edittext_stop_3);
+
+        mEditTextAltitude = findViewById(R.id.edittext_altitude);
 
         mBtnOk.setOnClickListener(
                 new View.OnClickListener() {
@@ -91,6 +95,8 @@ public class ReglagesActivity extends AppCompatActivity {
         intent.putExtra("Stop1", getFloat(mEditTextStop1));
         intent.putExtra("Stop2", getFloat(mEditTextStop2));
         intent.putExtra("Stop3", getFloat(mEditTextStop3));
+
+        intent.putExtra("Altitude", getFloat(mEditTextAltitude));
 
         setResult(RESULT_OK, intent);
         finish();
