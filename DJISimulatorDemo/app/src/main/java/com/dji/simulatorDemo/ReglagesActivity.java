@@ -1,16 +1,20 @@
 package com.dji.simulatorDemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class ReglagesActivity extends AppCompatActivity {
+
+    private static final String TAG = ReglagesActivity.class.getName();
 
     private EditText mEditTextRollVitesse;
 
@@ -33,6 +37,8 @@ public class ReglagesActivity extends AppCompatActivity {
     private EditText mEditTextAltitude;
 
     private Button mBtnOk;
+
+    private SharedPreferences mPreferences;
 
 
 
@@ -64,6 +70,28 @@ public class ReglagesActivity extends AppCompatActivity {
 
         mEditTextAltitude = findViewById(R.id.edittext_altitude);
 
+        mPreferences = getPreferences(MODE_PRIVATE);
+
+        mEditTextAltitude.setText(String.valueOf(mPreferences.getFloat("Altitude",0)));
+
+        mEditTextPitchDistance1.setText(String.valueOf(mPreferences.getFloat("PitchDistance1",0)));
+        mEditTextPitchDistance2.setText(String.valueOf(mPreferences.getFloat("PitchDistance2",0)));
+        mEditTextPitchDistance3.setText(String.valueOf(mPreferences.getFloat("PitchDistance3",0)));
+
+        mEditTextPitchVitesse1.setText(String.valueOf(mPreferences.getFloat("PitchVitesse1",0)));
+        mEditTextPitchVitesse2.setText(String.valueOf(mPreferences.getFloat("PitchVitesse2",0)));
+        mEditTextPitchVitesse3.setText(String.valueOf(mPreferences.getFloat("PitchVitesse3",0)));
+
+        mEditTextRollDistance1.setText(String.valueOf(mPreferences.getFloat("RollDistance1",0)));
+        mEditTextRollDistance2.setText(String.valueOf(mPreferences.getFloat("RollDistance2",0)));
+        mEditTextRollDistance3.setText(String.valueOf(mPreferences.getFloat("RollDistance3",0)));
+
+        mEditTextRollVitesse.setText(String.valueOf(mPreferences.getFloat("RollVitesse",0)));
+
+        mEditTextStop1.setText(String.valueOf(mPreferences.getFloat("Stop1",0)));
+        mEditTextStop2.setText(String.valueOf(mPreferences.getFloat("Stop2",0)));
+        mEditTextStop3.setText(String.valueOf(mPreferences.getFloat("Stop3",0)));
+
         mBtnOk.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -76,27 +104,55 @@ public class ReglagesActivity extends AppCompatActivity {
 
 
     }
+
+    protected void onResume(){
+        mPreferences = getPreferences(MODE_PRIVATE);
+        //mEditTextAltitude.setText(String.valueOf(mPreferences.getFloat("Altitude",0)));
+        Log.e(TAG, "onResume");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        Log.e(TAG, "onPause");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.e(TAG, "onStop");
+        Log.e(TAG,String.valueOf(mPreferences.getFloat("Altitude",0)) );
+        super.onStop();
+    }
+
+    public void onReturn(View view) {
+        Log.e(TAG, "onReturn");
+        this.finish();
+    }
     private void validate(){
         Intent intent = new Intent();
-        intent.putExtra("PitchDistance1",getFloat(mEditTextPitchDistance1));
-        intent.putExtra("PitchDistance2",getFloat(mEditTextPitchDistance2));
-        intent.putExtra("PitchDistance3",getFloat(mEditTextPitchDistance3));
+        mPreferences.edit().putFloat("PitchDistance1",getFloat(mEditTextPitchDistance1)).apply();
+        mPreferences.edit().putFloat("PitchDistance1",getFloat(mEditTextPitchDistance1)).apply();
+        mPreferences.edit().putFloat("PitchDistance2",getFloat(mEditTextPitchDistance2)).apply();
+        mPreferences.edit().putFloat("PitchDistance3",getFloat(mEditTextPitchDistance3)).apply();
 
-        intent.putExtra("PitchVitesse1",getFloat(mEditTextPitchVitesse1));
-        intent.putExtra("PitchVitesse2",getFloat(mEditTextPitchVitesse2));
-        intent.putExtra("PitchVitesse3",getFloat(mEditTextPitchVitesse3));
+        mPreferences.edit().putFloat("PitchVitesse1",getFloat(mEditTextPitchVitesse1)).apply();
+        mPreferences.edit().putFloat("PitchVitesse2",getFloat(mEditTextPitchVitesse2)).apply();
+        mPreferences.edit().putFloat("PitchVitesse3",getFloat(mEditTextPitchVitesse3)).apply();
 
-        intent.putExtra("RollDistance1", getFloat(mEditTextRollDistance1));
-        intent.putExtra("RollDistance2", getFloat(mEditTextRollDistance2));
-        intent.putExtra("RollDistance3", getFloat(mEditTextRollDistance3));
+        mPreferences.edit().putFloat("RollDistance1", getFloat(mEditTextRollDistance1)).apply();
+        mPreferences.edit().putFloat("RollDistance2", getFloat(mEditTextRollDistance2)).apply();
+        mPreferences.edit().putFloat("RollDistance3", getFloat(mEditTextRollDistance3)).apply();
 
-        intent.putExtra("RollVitesse", getFloat(mEditTextRollVitesse));
+        mPreferences.edit().putFloat("RollVitesse", getFloat(mEditTextRollVitesse)).apply();
 
-        intent.putExtra("Stop1", getFloat(mEditTextStop1));
-        intent.putExtra("Stop2", getFloat(mEditTextStop2));
-        intent.putExtra("Stop3", getFloat(mEditTextStop3));
+        mPreferences.edit().putFloat("Stop1", getFloat(mEditTextStop1)).apply();
+        mPreferences.edit().putFloat("Stop2", getFloat(mEditTextStop2)).apply();
+        mPreferences.edit().putFloat("Stop3", getFloat(mEditTextStop3)).apply();
 
-        intent.putExtra("Altitude", getFloat(mEditTextAltitude));
+        mPreferences.edit().putFloat("Altitude", getFloat(mEditTextAltitude)).apply();
+
+        //Log.e(TAG,"Validate "+(mPreferences.getFloat("Altitude",0))+"  "+getFloat(mEditTextAltitude) );
 
         setResult(RESULT_OK, intent);
         finish();
