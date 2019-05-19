@@ -101,7 +101,6 @@ public class ReglagesActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //Toast.makeText(ReglagesActivity.this,"Hello "+mEditTextPitchDistance1.getText(),Toast.LENGTH_LONG).show();
                         validate();
                     }
                 }
@@ -112,7 +111,6 @@ public class ReglagesActivity extends AppCompatActivity {
 
     protected void onResume(){
         mPreferences = getPreferences(MODE_PRIVATE);
-        //mEditTextAltitude.setText(String.valueOf(mPreferences.getFloat("Altitude",0)));
         Log.e(TAG, "onResume");
         super.onResume();
     }
@@ -134,6 +132,7 @@ public class ReglagesActivity extends AppCompatActivity {
         Log.e(TAG, "onReturn");
         this.finish();
     }
+    //Recupération des données entrées, et enregistrement en variables utilisateur pour les récuperer dans la MainActivity + Retour dans la MainActivity
     private void validate(){
         Intent intent = new Intent();
         editor.putFloat("PitchDistance1",getFloat(mEditTextPitchDistance1));
@@ -158,13 +157,12 @@ public class ReglagesActivity extends AppCompatActivity {
         editor.putFloat("Altitude", getFloat(mEditTextAltitude));
         editor.commit();
 
-        //Log.e(TAG,"Validate "+(mPreferences.getFloat("Altitude",0))+"  "+getFloat(mEditTextAltitude) );
-
         setResult(RESULT_OK, intent);
         finish();
 
     }
 
+    //Transformation des strings des entrées textes en float
     private float getFloat(EditText et){
         float value = -1;
         String text = et.getText().toString();
