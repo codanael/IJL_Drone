@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
@@ -20,7 +21,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TimingLogger;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -31,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.lmax.disruptor.WaitStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,6 @@ import dji.common.flightcontroller.virtualstick.RollPitchControlMode;
 import dji.common.flightcontroller.virtualstick.VerticalControlMode;
 import dji.common.flightcontroller.virtualstick.YawControlMode;
 import dji.common.model.LocationCoordinate2D;
-import dji.common.useraccount.UserAccountState;
 import dji.common.util.CommonCallbacks;
 import dji.log.DJILog;
 import dji.sdk.base.BaseComponent;
@@ -57,7 +55,6 @@ import dji.sdk.flightcontroller.FlightController;
 import dji.sdk.products.Aircraft;
 import dji.common.error.DJIError;
 import dji.sdk.sdkmanager.DJISDKManager;
-import dji.sdk.useraccount.UserAccountManager;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -90,6 +87,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Button mBtnTakeOff;
     private Button mBtnLand;
     private Button mBtnForward;
+    private Button mBtnForward2;
+    private Button mBtnForward3;
     private EditText mBridgeModeEditText;
     private Button mBtnReglages;
 
@@ -106,7 +105,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private float mYaw;
     private float mThrottle;
 
-    private SharedPreferences mPreferences;
+
+
+    SharedPreferences mPreferences;
 
 
     private static final int REGLAGES_ACTIVITY_REQUEST_CODE = 42;
@@ -116,7 +117,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         checkAndRequestPermissions();
         setContentView(R.layout.activity_main);
-        mPreferences = getPreferences(MODE_PRIVATE);
+        Context mContext = getApplicationContext();
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);  //Variable permettant d'enregistrer les réglages de trajectoires
 
         initUI();
 
@@ -127,10 +129,45 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 
     }
+    //Fonction utilisée lors de l'appui sur les boutons trajectoire 1-3
+    private void trajectoire(int numero){
+        if (mFlightController != null) {
+            mPitch = 0;
+            mYaw = 0;
+            mRoll = 0;
+            mThrottle = 0;
 
-    private void runMultipleAsyncTask() // Run Multiple Async Task
+            if (null == mSendVirtualStickDataTimer) {
+                Log.d(TAG,"IF Traj1");
+                mSendVirtualStickDataTask = new SendVirtualStickDataTask();
+                mSendVirtualStickDataTimer = new Timer();
+                mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20); //Envoi des commandes (Pitch, Yaw, Roll, Throttle) toutes les 20ms à l'appareil
+
+            }
+            switch (numero) {
+                case 1:
+                    Log.d(TAG, "Traj1");
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse1", 0), mPreferences.getFloat("PitchDistance1", 0), mPreferences.getFloat("RollVitesse", 0), mPreferences.getFloat("RollDistance1", 0), mPreferences.getFloat("Stop1", 0), mPreferences.getFloat("Altitude", 0));
+                    break;
+                case 2:
+                    Log.d(TAG, "Traj2");
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse2", 0), mPreferences.getFloat("PitchDistance2", 0), mPreferences.getFloat("RollVitesse", 0), mPreferences.getFloat("RollDistance2", 0), mPreferences.getFloat("Stop2", 0), mPreferences.getFloat("Altitude", 0));
+                    break;
+                case 3:
+                    Log.d(TAG, "Traj3");
+                    runMultipleAsyncTask(mPreferences.getFloat("PitchVitesse3", 0), mPreferences.getFloat("PitchDistance3", 0), mPreferences.getFloat("RollVitesse", 0), mPreferences.getFloat("RollDistance3", 0), mPreferences.getFloat("Stop3", 0), mPreferences.getFloat("Altitude", 0));
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+    }
+
+    private void runMultipleAsyncTask(float vitesseX, float distanceX, float vitesseY, float distanceY, float stop, float altitude) // Run Multiple Async Task
     {
-        FirstAsyncTask asyncTask = new FirstAsyncTask(); // First
+        FirstAsyncTask asyncTask = new FirstAsyncTask(vitesseX, distanceX, vitesseY, distanceY, stop, altitude); //Creation d'un thread executant une action en arrière plan
 
         asyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
@@ -138,42 +175,68 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //Start First Async Task:
     private class FirstAsyncTask extends AsyncTask<Void, Void, Void>
     {
+        float vitesseX;
+        float distanceX;
+        float vitesseY;
+        float distanceY;
+        float stop;
+        float altitude;
+
+        public FirstAsyncTask(float vitesseX, float distanceX, float vitesseY, float distanceY, float stop, float altitude) {
+            this.vitesseX = vitesseX;
+            this.distanceX = distanceX;
+            this.vitesseY = vitesseY;
+            this.distanceY = distanceY;
+            this.stop = stop;
+            this.altitude = altitude;
+        }
+
         @Override
         protected void onPreExecute()
         {
+            if(this.vitesseY <= 0 || this.distanceX <= 0 || this.distanceY <= 0|| this.vitesseX <= 0|| this.stop <= 0|| this.altitude <= 0){
+                showToast("Un ou plusieurs paramètres sont incorrects");
+
+            }
             Log.i("AsyncTask" ,"FirstOnPreExecute()");
+            //Desactivation des boutons pour ne pas executer deux trajectoires en même temps
+            mBtnForward.setActivated(false);
+            mBtnForward2.setActivated(false);
+            mBtnForward3.setActivated(false);
         }
         @Override
+        //Execution de la trajectoire en fonction des params donnés
         protected Void doInBackground(Void... params)
         {
-            mPitch=1;
+            mRoll=this.vitesseY;
+            Log.i("AsyncTask","Roll = "+this.vitesseY);
             try
             {
-                Thread.sleep(3000);
-            }
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }
-            mPitch = 0;
-            try
-            {
-                Thread.sleep(2000);
-            }
-            catch (InterruptedException exception)
-            {
-                exception.printStackTrace();
-            }
-            mRoll = 1;
-            try
-            {
-                Thread.sleep(3000);
+                Thread.sleep((long)(this.distanceY/this.vitesseY*1000));
             }
             catch (InterruptedException exception)
             {
                 exception.printStackTrace();
             }
             mRoll = 0;
+            try
+            {
+                Thread.sleep(2000+(long)this.stop*1000);
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mPitch = this.vitesseX;
+            try
+            {
+                Thread.sleep((long)(this.distanceX/this.vitesseX*1000));
+            }
+            catch (InterruptedException exception)
+            {
+                exception.printStackTrace();
+            }
+            mPitch = 0;
 
             return null;
         }
@@ -181,13 +244,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         protected void onPostExecute(Void result)
         {
             Log.d("AsyncTask" ,"FirstonPostExecute()");
+            //reactivation des boutons
+            mBtnForward.setActivated(true);
+            mBtnForward2.setActivated(true);
+            mBtnForward3.setActivated(true);
         }
     }
-
-
-
-
-
 
     /**
      * Checks if there is any missing permissions, and
@@ -340,11 +402,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onResume() {
         Log.e(TAG, "onResume");
-        mPreferences = getPreferences(MODE_PRIVATE);
         super.onResume();
         updateTitleBar();
         initFlightController();
-        //loginAccount();
 
     }
 
@@ -361,6 +421,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     public void onReturn(View view) {
+        mPreferences = getPreferences(MODE_PRIVATE);
         Log.e(TAG, "onReturn");
         this.finish();
     }
@@ -378,24 +439,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         super.onDestroy();
     }
-
-    /*private void loginAccount() {
-
-        UserAccountManager.getInstance().logIntoDJIUserAccount(this,
-                new CommonCallbacks.CompletionCallbackWith<UserAccountState>() {
-                    @Override
-                    public void onSuccess(final UserAccountState userAccountState) {
-                        Log.e(TAG, "Login Success");
-                        showToast("Connecté");
-                    }
-
-                    @Override
-                    public void onFailure(DJIError error) {
-                        showToast("Login Error:"
-                                + error.getDescription());
-                    }
-                });
-    }*/
 
     private void initFlightController() {
 
@@ -442,6 +485,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mBtnLand = (Button) findViewById(R.id.btn_land);
         mBtnSimulator = (ToggleButton) findViewById(R.id.btn_start_simulator);
         mBtnForward = (Button) findViewById(R.id.btn_forward);
+        mBtnForward2 = (Button) findViewById(R.id.btn_forward2);
+        mBtnForward3 = (Button) findViewById(R.id.btn_forward3);
         mTextView = (TextView) findViewById(R.id.textview_simulator);
         mConnectStatusTextView = (TextView) findViewById(R.id.ConnectStatusTextView);
         mScreenJoystickRight = (OnScreenJoystick) findViewById(R.id.directionJoystickRight);
@@ -454,6 +499,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mBtnTakeOff.setOnClickListener(this);
         mBtnLand.setOnClickListener(this);
         mBtnForward.setOnClickListener(this);
+        mBtnForward2.setOnClickListener(this);
+        mBtnForward3.setOnClickListener(this);
         mBtnReglages.setOnClickListener(this);
 
         mBtnSimulator.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -491,7 +538,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                               if (djiError != null) {
                                                   showToast(djiError.getDescription());
                                               } else
-                                                  {
+                                              {
                                                   showToast("Stop Simulator Success");
                                               }
                                           }
@@ -543,62 +590,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             }
         });
 
-
-        /*mScreenJoystickRight.setJoystickListener(new OnScreenJoystickListener(){
-
-            @Override
-            public void onTouch(OnScreenJoystick joystick, float pX, float pY) {
-                if(Math.abs(pX) < 0.02 ){
-                    pX = 0;
-                }
-
-                if(Math.abs(pY) < 0.02 ){
-                    pY = 0;
-                }
-
-                float pitchJoyControlMaxSpeed = 10;
-                float rollJoyControlMaxSpeed = 10;
-
-                mPitch = (float)(pitchJoyControlMaxSpeed * pX);
-
-                mRoll = (float)(rollJoyControlMaxSpeed * pY);
-
-                if (null == mSendVirtualStickDataTimer) {
-                    mSendVirtualStickDataTask = new SendVirtualStickDataTask();
-                    mSendVirtualStickDataTimer = new Timer();
-                    mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 100, 200);
-                }
-
-            }
-
-        });
-
-       mScreenJoystickLeft.setJoystickListener(new OnScreenJoystickListener() {
-
-            @Override
-            public void onTouch(OnScreenJoystick joystick, float pX, float pY) {
-                if(Math.abs(pX) < 0.02 ){
-                    pX = 0;
-                }
-
-                if(Math.abs(pY) < 0.02 ){
-                    pY = 0;
-                }
-                float verticalJoyControlMaxSpeed = 2;
-                float yawJoyControlMaxSpeed = 30;
-
-                mYaw = (float)(yawJoyControlMaxSpeed * pX);
-                mThrottle = (float)(verticalJoyControlMaxSpeed * pY);
-
-                if (null == mSendVirtualStickDataTimer) {
-                    mSendVirtualStickDataTask = new SendVirtualStickDataTask();
-                    mSendVirtualStickDataTimer = new Timer();
-                    mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 200);
-                }
-
-            }
-        });*/
-}
+    }
     private void handleBridgeIPTextChange() {
         // the user is done typing.
         final String bridgeIP = mBridgeModeEditText.getText().toString();
@@ -688,29 +680,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
 
             case R.id.btn_forward:
-                Log.d(TAG,"FORWARD");
-                if (mFlightController != null) {
-                    mPitch = 0;
-                    mYaw = 0;
-                    mRoll = 0;
-                    mThrottle = 0;
+                trajectoire(1);
+                break;
 
-                    if (null == mSendVirtualStickDataTimer) {
-                        Log.d(TAG,"IF FORWARD");
-                        mSendVirtualStickDataTask = new SendVirtualStickDataTask();
-                        mSendVirtualStickDataTimer = new Timer();
-                        mSendVirtualStickDataTimer.schedule(mSendVirtualStickDataTask, 0, 20);
+            case R.id.btn_forward2:
+                trajectoire(2);
+                break;
 
-                    }
-                    runMultipleAsyncTask();
-
-                }
+            case R.id.btn_forward3:
+                trajectoire(3);
                 break;
 
             case R.id.btn_reglage:
                 Intent ReglagesActivity = new Intent(MainActivity.this, ReglagesActivity.class);
                 startActivityForResult(ReglagesActivity, REGLAGES_ACTIVITY_REQUEST_CODE);
-             break;
+                break;
 
 
             default:
@@ -726,24 +710,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
-class SendVirtualStickDataTask extends TimerTask {
+    class SendVirtualStickDataTask extends TimerTask {
 
-    @Override
-    public void run() {
+        @Override
+        public void run() {
 
-        if (mFlightController != null) {
-            mFlightController.sendVirtualStickFlightControlData(
-                    new FlightControlData(
-                            mPitch, mRoll, mYaw, mThrottle
-                    ), new CommonCallbacks.CompletionCallback() {
-                        @Override
-                        public void onResult(DJIError djiError) {
+            if (mFlightController != null) {
+                mFlightController.sendVirtualStickFlightControlData(
+                        new FlightControlData(
+                                mPitch, mRoll, mYaw, mThrottle
+                        ), new CommonCallbacks.CompletionCallback() {
+                            @Override
+                            public void onResult(DJIError djiError) {
 
+                            }
                         }
-                    }
-            );
+                );
+            }
         }
     }
-}
 
 }

@@ -164,7 +164,6 @@
         android:digits="0123456789.\n"
         android:hint="WSBridge IP"
         android:imeOptions="actionDone"
-        android:inputType="numberDecimal"
         android:maxLength="15"
         android:maxLines="1"
         android:nextFocusLeft="@id/edittext_bridge_ip"
